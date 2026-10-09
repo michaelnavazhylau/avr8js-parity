@@ -13,7 +13,7 @@ env:
   # together with any contract change a newer engine requires. A branch name
   # keeps the pair aligned while both repositories are moving; pin a commit once
   # the contract is cited as a fixed baseline.
-  AVR_SIM_REF: main
+  AVR8RS_REF: main
 
 jobs:
   parity:
@@ -28,7 +28,7 @@ jobs:
       # The engine is a sibling path dependency, not a registry dependency yet.
       # A plain clone avoids actions/checkout's workspace-containment rule.
       - name: Check out the engine beside this contract
-        run: git clone --depth 1 --branch "$AVR_SIM_REF" https://github.com/michaelnavazhylau/arduino-sim-rs ../arduino-sim-rs
+        run: git clone --depth 1 --branch "$AVR8RS_REF" https://github.com/michaelnavazhylau/arduino-sim-rs ../arduino-sim-rs
       # Pinned rather than @stable: a new stable release can promote clippy lints
       # to errors and break the gate. Bump deliberately, together with any lint
       # fixes the newer toolchain requires.

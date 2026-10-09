@@ -10,10 +10,10 @@ publish = false
 # The contract is generated from a pinned upstream revision and asserted against
 # one engine. It is a test suite, not a library, so it is never published.
 [dependencies]
-# Deliberately a path dependency, not a registry pin. `avr-sim` is published to
+# Deliberately a path dependency, not a registry pin. `avr8rs` is published to
 # crates.io (see README.md, "Release rule"), but this contract exists to gate
 # *unreleased* engine commits: a registry-only pin could only ever test released
 # versions, turning this gate into a lagging indicator that reports a break after
 # a release instead of on the engine's next commit. The `version` records which
 # registry release the contract is asserted against.
-avr-sim = { path = "../arduino-sim-rs/rust_port", version = "0.1" }
+avr8rs = { path = "../arduino-sim-rs/rust_port", version = "0.1" }

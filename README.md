@@ -1,13 +1,13 @@
 # avr8js-parity
 
 The converted **AVR8js behavioral contract** for
-[`avr-sim`](https://github.com/michaelnavazhylau/arduino-sim-rs): all **14
+[`avr8rs`](https://github.com/michaelnavazhylau/arduino-sim-rs): all **14
 upstream AVR8js test suites**, **347 test cases** and **853 assertion sites**,
 lowered from TypeScript into typed Rust scenarios — together with the converter
 that produces them and the pinned upstream revision they are asserted against.
 
 The simulator that satisfies this contract is deliberately **not** here. It is
-the `avr-sim` crate, which lives in `rust_port/` of
+the `avr8rs` crate, which lives in `rust_port/` of
 [`arduino-sim-rs`](https://github.com/michaelnavazhylau/arduino-sim-rs). This
 repository exists so 27k lines of machine-written scenarios, bound to one
 upstream commit, stop sharing a history and a lockfile with the hand-written
@@ -26,7 +26,7 @@ engine.
 
 ## Running the contract
 
-`avr-sim` is consumed as a **sibling path dependency** on purpose — see
+`avr8rs` is consumed as a **sibling path dependency** on purpose — see
 [Release rule](#release-rule) below — so check the engine out next to this
 repository:
 
@@ -45,22 +45,25 @@ not needed for it.
 
 ## Release rule
 
-[![avr-sim on crates.io](https://img.shields.io/crates/v/avr-sim.svg)](https://crates.io/crates/avr-sim)
+[![avr8rs on crates.io](https://img.shields.io/crates/v/avr8rs.svg)](https://crates.io/crates/avr8rs)
 
-The engine is published as [`avr-sim`](https://crates.io/crates/avr-sim), and
-this contract is what justifies a release. Publish a new `avr-sim` version
+The engine is published as [`avr8rs`](https://crates.io/crates/avr8rs), and
+this contract is what justifies a release. Publish a new `avr8rs` version
 **only from a commit where this repository's gate is green against that commit**,
 so "released" means "contract-verified" rather than "presumed compatible".
 
 That is also why the dependency stays a path dependency. A registry-only pin
 could only ever test *released* engine versions, which would turn this gate into
 a lagging indicator: a break would surface after a release instead of on the
-engine's next commit. Today the two are equivalent — the published crate was
-built from the commit the gate passed against.
+engine's next commit. Today the two are equivalent — each published version was
+built from a commit this gate passed against.
 
-| `avr-sim` release | Published from | Gate green at that commit |
+| `avr8rs` release | Published from | Gate green at that commit |
 | --- | --- | --- |
-| 0.1.0 | `a22a1bf` | yes |
+| 0.1.0 | `42e1436` | yes |
+
+`avr-sim` was an earlier placeholder name for the same crate. `avr-sim 0.1.0`
+is yanked, so new dependents resolve `avr8rs` only.
 
 ## Regenerating
 
@@ -85,7 +88,7 @@ syntax through as an unresolved backend call.
 
 - **This repository owns** the converted contract, the converter, the pinned
   upstream revision, and the deterministic-conversion check.
-- **`arduino-sim-rs` owns** the `avr-sim` engine, the scenario IR and scenario
+- **`arduino-sim-rs` owns** the `avr8rs` engine, the scenario IR and scenario
   runner (`scenario.rs`, `runtime.rs`), the AVR hardware reference bundle
   (`specs/`, vendor datasheets by provenance only) and the implementation plan.
 - The scenario IR and its runner stayed with the engine rather than moving here.
