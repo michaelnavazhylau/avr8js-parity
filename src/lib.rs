@@ -1,23 +1,23 @@
 // SPDX-License-Identifier: MIT
 
-//! Behavioral tests for a native AVR simulator. No JavaScript runtime is used.
+//! Converted AVR8js behavioral contract.
 //!
-//! The Rust scenario representation deliberately separates test behavior from the
-//! simulator's evolving ownership model. See `Backend` and the project README.
-pub mod board;
-pub mod runtime;
-pub mod scenario;
-pub mod sim;
+//! Every scenario under [`suites`] is generated from the pinned `avr8js`
+//! submodule by `tools/convert.cjs`. This crate carries the contract, the
+//! converter and the upstream revision; the simulator that satisfies it lives
+//! in the `avr-sim` crate.
+//!
+//! The re-exports below are named to match what the generated modules already
+//! expect — `crate::Case`, `crate::run_native` and `crate::scenario::*` — so
+//! regeneration stays a pure data operation and the generator needs to know
+//! nothing about where the engine lives.
+
+pub use avr_sim::scenario;
+pub use avr_sim::{runtime, Backend, Case, Runtime, Value};
+
 pub mod suites;
-pub use board::Board;
-pub use runtime::{Backend, Runtime, Value};
-pub use scenario::Case;
 
-/// The native Rust AVR simulator that backs every converted scenario.
-pub fn native_backend() -> std::rc::Rc<dyn Backend> {
-    std::rc::Rc::new(sim::Simulator::new())
-}
-
+/// Run one converted scenario against the native backend.
 pub fn run_native(case: Case) {
-    Runtime::new(native_backend()).run(&case);
+    Runtime::new(avr_sim::native_backend()).run(&case);
 }

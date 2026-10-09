@@ -1,9 +1,16 @@
 [package]
-name = "avr-port-tests"
+name = "avr8js-parity"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-description = "Native Rust behavioral contract for the AVR8js language port"
-repository = "https://github.com/michaelnavazhylau/arduino-sim-rs"
+description = "Converted AVR8js behavioral contract for the native Rust AVR simulator"
+repository = "https://github.com/michaelnavazhylau/avr8js-parity"
+publish = false
 
+# The contract is generated from a pinned upstream revision and asserted against
+# one engine. It is a test suite, not a library, so it is never published.
 [dependencies]
+# Path dependency while `avr-sim` is unreleased. The `version` is the registry
+# release this contract is meant to be asserted against: once that exists, drop
+# `path` and the sibling checkout requirement in README.md goes away with it.
+avr-sim = { path = "../arduino-sim-rs/rust_port", version = "0.1" }

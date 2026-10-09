@@ -1,0 +1,48 @@
+name: AVR8js parity contract
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # Engine revision this contract is asserted against. Bump deliberately,
+  # together with any contract change a newer engine requires. A branch name
+  # keeps the pair aligned while both repositories are moving; pin a commit once
+  # the contract is cited as a fixed baseline.
+  AVR_SIM_REF: main
+
+jobs:
+  parity:
+    # Pinned rather than ubuntu-latest, which migrates to Ubuntu 26 in Oct 2026.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: true
+          persist-credentials: false
+      # The engine is a sibling path dependency, not a registry dependency yet.
+      # A plain clone avoids actions/checkout's workspace-containment rule.
+      - name: Check out the engine beside this contract
+        run: git clone --depth 1 --branch "$AVR_SIM_REF" https://github.com/michaelnavazhylau/arduino-sim-rs ../arduino-sim-rs
+      # Pinned rather than @stable: a new stable release can promote clippy lints
+      # to errors and break the gate. Bump deliberately, together with any lint
+      # fixes the newer toolchain requires.
+      - uses: dtolnay/rust-toolchain@1.99.0
+        with:
+          components: rustfmt, clippy
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: tools/package-lock.json
+      - name: Verify the converted contract in debug and release
+        run: bash tools/verify-parity.sh
+      - name: Install pinned conversion tooling
+        run: npm --prefix tools ci --ignore-scripts
+      - name: Verify deterministic conversion and source hashes
+        run: npm --prefix tools run check

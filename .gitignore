@@ -1,2 +1,5 @@
+.DS_Store
+.env
+.env.*
 /target/
 /tools/node_modules/
