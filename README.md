@@ -26,8 +26,9 @@ engine.
 
 ## Running the contract
 
-`avr-sim` is consumed as a sibling path dependency until it is published, so
-check the engine out next to this repository:
+`avr-sim` is consumed as a **sibling path dependency** on purpose — see
+[Release rule](#release-rule) below — so check the engine out next to this
+repository:
 
 ```sh
 git clone https://github.com/michaelnavazhylau/arduino-sim-rs
@@ -41,6 +42,25 @@ is `#[ignore]`d — a green run may never imply coverage that does not exist —
 then runs `cargo fmt --check`, `clippy --all-targets -D warnings` and the whole
 contract in debug and release. Node, TypeScript and the upstream submodule are
 not needed for it.
+
+## Release rule
+
+[![avr-sim on crates.io](https://img.shields.io/crates/v/avr-sim.svg)](https://crates.io/crates/avr-sim)
+
+The engine is published as [`avr-sim`](https://crates.io/crates/avr-sim), and
+this contract is what justifies a release. Publish a new `avr-sim` version
+**only from a commit where this repository's gate is green against that commit**,
+so "released" means "contract-verified" rather than "presumed compatible".
+
+That is also why the dependency stays a path dependency. A registry-only pin
+could only ever test *released* engine versions, which would turn this gate into
+a lagging indicator: a break would surface after a release instead of on the
+engine's next commit. Today the two are equivalent — the published crate was
+built from the commit the gate passed against.
+
+| `avr-sim` release | Published from | Gate green at that commit |
+| --- | --- | --- |
+| 0.1.0 | `a22a1bf` | yes |
 
 ## Regenerating
 
