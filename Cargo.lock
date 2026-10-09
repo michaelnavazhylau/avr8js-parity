@@ -3,12 +3,12 @@
 version = 4
 
 [[package]]
-name = "avr8rs"
-version = "0.1.0"
-
-[[package]]
 name = "avr8js-parity"
 version = "0.1.0"
 dependencies = [
  "avr8rs",
 ]
+
+[[package]]
+name = "avr8rs"
+version = "0.1.1"

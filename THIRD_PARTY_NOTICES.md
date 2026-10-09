@@ -45,7 +45,7 @@ of any produced artifact.
 
 ## Other third-party components
 
-The AVR simulator, the raylib front-end, the `arduino-cli` end-to-end test and
-the Microchip/Atmel datasheet references all live in
-[`arduino-sim-rs`](https://github.com/michaelnavazhylau/arduino-sim-rs) and are
-noticed there.
+The engine, the `arduino-cli` end-to-end test and the Microchip/Atmel datasheet
+references live in [`avr8rs`](https://github.com/michaelnavazhylau/avr8rs) and are
+noticed there, together with the raylib front-end in
+[`arduino-sim-rs`](https://github.com/michaelnavazhylau/arduino-sim-rs).

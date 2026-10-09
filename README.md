@@ -1,14 +1,14 @@
 # avr8js-parity
 
 The converted **AVR8js behavioral contract** for
-[`avr8rs`](https://github.com/michaelnavazhylau/arduino-sim-rs): all **14
+[`avr8rs`](https://github.com/michaelnavazhylau/avr8rs): all **14
 upstream AVR8js test suites**, **347 test cases** and **853 assertion sites**,
 lowered from TypeScript into typed Rust scenarios — together with the converter
 that produces them and the pinned upstream revision they are asserted against.
 
 The simulator that satisfies this contract is deliberately **not** here. It is
-the `avr8rs` crate, which lives in `rust_port/` of
-[`arduino-sim-rs`](https://github.com/michaelnavazhylau/arduino-sim-rs). This
+the `avr8rs` crate, which lives in
+[`michaelnavazhylau/avr8rs`](https://github.com/michaelnavazhylau/avr8rs). This
 repository exists so 27k lines of machine-written scenarios, bound to one
 upstream commit, stop sharing a history and a lockfile with the hand-written
 engine.
@@ -31,7 +31,7 @@ engine.
 repository:
 
 ```sh
-git clone https://github.com/michaelnavazhylau/arduino-sim-rs
+git clone https://github.com/michaelnavazhylau/avr8rs
 git clone --recurse-submodules https://github.com/michaelnavazhylau/avr8js-parity
 cd avr8js-parity
 bash tools/verify-parity.sh
@@ -88,9 +88,14 @@ syntax through as an unresolved backend call.
 
 - **This repository owns** the converted contract, the converter, the pinned
   upstream revision, and the deterministic-conversion check.
-- **`arduino-sim-rs` owns** the `avr8rs` engine, the scenario IR and scenario
-  runner (`scenario.rs`, `runtime.rs`), the AVR hardware reference bundle
-  (`specs/`, vendor datasheets by provenance only) and the implementation plan.
+- **[`avr8rs`](https://github.com/michaelnavazhylau/avr8rs) owns** the engine, the
+  scenario IR and scenario runner (`scenario.rs`, `runtime.rs`), the AVR hardware
+  reference bundle (`specs/`, vendor datasheets by provenance only) and the
+  implementation plan.
+- **[`arduino-sim-rs`](https://github.com/michaelnavazhylau/arduino-sim-rs) owns**
+  the front-end that consumes the engine by version: the `breadboard` host with
+  its electrical coupling and the `blink-gui` raylib demo. Neither is part of the
+  compatibility surface this contract covers.
 - The scenario IR and its runner stayed with the engine rather than moving here.
   The runner's expression evaluator is shared between the `Case`-driven path and
   the callback path that `breadboard` and `blink-gui` drive, so extracting it

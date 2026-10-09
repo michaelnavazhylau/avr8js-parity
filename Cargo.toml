@@ -16,4 +16,4 @@ publish = false
 # versions, turning this gate into a lagging indicator that reports a break after
 # a release instead of on the engine's next commit. The `version` records which
 # registry release the contract is asserted against.
-avr8rs = { path = "../arduino-sim-rs/rust_port", version = "0.1" }
+avr8rs = { path = "../avr8rs", version = "0.1" }
